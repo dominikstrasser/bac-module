@@ -5,5 +5,35 @@
 </head>
 <body>
 <h1>dsat-router</h1>
+
+<p>
+    Das Ziel ist ein Modul zu schreiben welches ähnlich anzuwenden ist wie der bekannte
+    Express Router. Der Benutzer soll keinen Unterschied merken nur das im Hintergrund eben
+    das File für das Frontend geschrieben wird.
+</p>
+<p>
+    Also aus router.get("/",function(){}); wird dsat.get("/", function(){});
+</p>
+<div ng-app="testApp">
+    <div ng-controller="testController">
+        {{test}}
+    </div>
+</div>
+
+<h1>TODO</h1>
+<ul>
+    <li>Beistrich bei mehreren Methoden einfügen</li>
+    <li>Methoden Namen?</li>
+    <li>modul "verwendung" überdenken (config und root)</li>
+    <li>Config Element</li>
+    <li>Parameter?</li>
+    <li>Optionen (isArray)</li>
+
+</ul>
+
+<script src="bower_components/angularjs/angular.min.js"></script>
+<script src="bower_components/angular-resource/angular-resource.min.js"></script>
+<script src="app.js"></script>
+<script src="services.js"></script>
 </body>
 </html>

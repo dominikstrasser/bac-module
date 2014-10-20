@@ -2,41 +2,85 @@ var express = require("express");
 var router = express.Router();
 var fs = require("fs");
 
-var test = "angular.module('pro5_hzv.bookingService', ['ngResource']).factory('bookingService', function($resource){return $resource('api/booking/getCurrentArrivals/', {}, {currentArrivals: {method:'GET', params:{}, isArray:true}});});"
-
-var dsat = function(){	
+var dsat = function(module, service ){
 	this.router = router;
 	console.log("dsat");
-
+    this.msg = "";
+    this.moduleName = module;
+    this.serviceName = service;
+    this.routes = new Array();
+    this.config = {};
 };
+
+
+
+
+var route = function(path, method, params){
+    this.path = path;
+    this.method = method;
+    this.params = params;
+};
+
+
+
 dsat.prototype.writeFile = function(path, msg){
-	if(fs.exists(path),function(e){
-		console.log("file existiert");
-	});
-		/*
-	fs.unlink(path, function (err) {
-		if (err) throw err;
-	  	console.log('successfully deleted /tmp/hello');
-	});
-*/
 	fs.writeFile(path, msg, function(err) {
 	    if(err) {
 	        console.log(err);
 	    } else {
 	        console.log("The file was saved!");
-	}
-});
-};
-
-dsat.prototype.get = function(path, params){
-	console.log("path: " + path);
-	console.log("params: " + params);
-	this.writeFile("test.js", test);
-	router.get("/", function(req, res){
-		console.log("get : /");
-		res.send("TEST");
-	});
+	    }
+    });
 };
 
 
-module.exports = new dsat();
+dsat.prototype.createAngularService = function(){
+
+    var myRoutes = this.routes;
+
+    this.msg ="angular.module('"+this.moduleName+"', ['ngResource'])\n"
+
+    for(r in myRoutes) {
+
+
+        this.msg += ".factory('"+r+"', function($resource){\n";
+        this.msg += "return $resource('"+ myRoutes[r][0].path +"', {}, {\n";
+        for(f in myRoutes[r]) {
+            this.msg += r + ": {method:'" + myRoutes[r][f].method + "', params:{" + myRoutes[r][f].params + "}, isArray:true}\n";
+        }
+        this.msg += "});\n";
+        this.msg += "})\n";
+
+    }
+
+    this.msg += ";\n";
+    this.writeFile("public/services.js", this.msg);
+
+};
+
+dsat.prototype.addToRoutes = function(route){
+    var p = route.path.replace("/", "");
+    route.path = this.root + route.path;
+    if(this.config.hasOwnProperty(p)){
+        p = this.config[p];
+    }
+    if(!(p in this.routes)){
+        this.routes[p] = new Array();
+    }
+    this.routes[p].push(route);
+};
+
+
+
+dsat.prototype.get = function(path, cb){
+    this.addToRoutes(new route(path, "get", []));
+	router.get(path, cb);
+};
+
+dsat.prototype.post = function(path, cb){
+    this.addToRoutes(new route(path, "post", []));
+    router.post(path, cb);
+};
+
+
+module.exports = new dsat("myService", "bookingS");
