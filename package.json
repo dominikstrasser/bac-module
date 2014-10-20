@@ -1,0 +1,23 @@
+{
+  "name": "bachelorProject",
+  "version": "1.0.0",
+  "description": "Generates an angularjs service for communicating with the rest server which is based on express. The ngResource is generated depending on the express routes",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dominikstrasser/bachelorProject.git"
+  },
+  "author": "Dominik Strasser",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dominikstrasser/bachelorProject/issues"
+  },
+  "homepage": "https://github.com/dominikstrasser/bachelorProject",
+  "dependencies": {
+    "body-parser": "^1.9.0",
+    "express": "^4.9.8"
+  }
+}
