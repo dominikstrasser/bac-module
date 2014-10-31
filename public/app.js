@@ -1,5 +1,21 @@
-angular.module("testApp", ["myService"])
-    .controller("testController", function($scope, userService){
+angular.module("testApp", ["mytestModule"])
+    .controller("testController", function($scope, guestProvider, roomProvider){
+        $scope.guests = guestProvider.query();
+        //guestProvider.test2({"test1" : "TEST1"});
+        $scope.rooms = roomProvider.query();
+        /*
+        $scope.rooms = room.room();
 
-        $scope.test = userService.userService();
+        $scope.saveBooking = function(){
+            booking.save($scope.newBooking);
+        };
+
+        $scope.saveGuest = function(){
+            guest.save($scope.newGuest);
+        };
+
+        $scope.saveRoom = function(){
+            room.save($scope.newRoom);
+        };
+        */
     });

@@ -1,0 +1,17 @@
+[
+    {
+        "name": "Raum Nr. 1",
+        "Preis": "15 €",
+        "Betten": 1
+    },
+    {
+        "name": "Raum Nr. 2",
+        "Preis": "25 €",
+        "Betten": 2
+    },
+    {
+        "name": "Raum Nr. 3",
+        "Preis": "35 €",
+        "Betten": 3
+    }
+]

@@ -16,8 +16,54 @@
 </p>
 <div ng-app="testApp">
     <div ng-controller="testController">
-        {{test}}
+        <div>
+            <h3>Bookings</h3>
+            <ul ng-repeat="booking in bookings">
+                <li>Date: {{booking.date}} - Person : {{booking.person}} - Room: {{booking.room}}</li>
+            </ul>
+            <p>Add Booking</p>
+            <p>
+                <form ng-submit="saveBooking()">
+                    <label>Date</label>
+                    <input type="text" ng-model="newBooking.date">
+                    <label>Person</label>
+                    <input type="text" ng-model="newBooking.person">
+                    <label>Room</label>
+                    <input type="text" ng-model="newBooking.room">
+                    <button type="submit">Save</button>
+                </form>
+            </p>
+        </div>
+
+        <div>
+            <h3>Guests</h3>
+            <ul ng-repeat="guest in guests">
+                <li>{{guest.first_name}} {{guest.last_name}}</li>
+            </ul>
+            <form ng-submit="saveGuest()">
+                <label>First Name</label>
+                <input type="text" ng-model="newGuest.first_name">
+                <label>Last Name</label>
+                <input type="text" ng-model="newGuest.last_name">
+                <button type="submit">Save</button>
+            </form>
+        </div>
+        <div>
+
+            <h3>Rooms</h3>
+            <ul ng-repeat="room in rooms">
+                <li>{{room.name}} - Preis: {{room.preis}}</li>
+            </ul>
+            <form ng-submit="saveRoom()">
+                <label>Name</label>
+                <input type="text" ng-model="newRoom.name">
+                <label>Price</label>
+                <input type="text" ng-model="newGuest.price">
+                <button type="submit">Save</button>
+            </form>
+        </div>
     </div>
+
 </div>
 
 <h1>TODO</h1>
@@ -34,6 +80,6 @@
 <script src="bower_components/angularjs/angular.min.js"></script>
 <script src="bower_components/angular-resource/angular-resource.min.js"></script>
 <script src="app.js"></script>
-<script src="services.js"></script>
+<script src="api/services.js"></script>
 </body>
 </html>

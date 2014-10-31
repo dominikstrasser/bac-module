@@ -1,0 +1,20 @@
+[
+    {
+        "first_name": "Dominik",
+        "last_name": "Strasser",
+        "plz": 4020,
+        "city": "Linz"
+    },
+    {
+        "first_name": "Thomas",
+        "last_name": "Steidl",
+        "plz": 4020,
+        "city": "Linz"
+    },
+    {
+        "first_name": "Markus",
+        "last_name": "Tretzmüller",
+        "plz": 4020,
+        "city": "Linz"
+    }
+]
