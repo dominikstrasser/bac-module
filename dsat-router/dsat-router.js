@@ -42,14 +42,20 @@ dsat.prototype.createAngularService = function(cb){
     var myRoutes = this.routes;
 
     this.msg ="angular.module('"+this.moduleName+"', ['ngResource'])\n"
-    //console.log(myRoutes);
+    console.log(myRoutes);
     for(r in myRoutes) {
-
         this.msg += ".factory('"+r+"', function($resource){\n";
         var isFirstCustomAction = true;
-        this.msg += "return $resource('"+ myRoutes[r][0].path + ":id" + "', {id: '@_id'}, {\n";
+        this.msg += "return $resource('"+ myRoutes[r][0].path;
+        //console.log( myRoutes.param)
+        if(typeof myRoutes[r].param != 'undefined') {
+            console.log("PARAM!");
+            this.msg += myRoutes[r].param;
+        }
+        this.msg += "',{},{\n";
         for(f  in myRoutes[r]) {
-            if(myRoutes[r][f].name != '') {
+
+            if(typeof myRoutes[r][f].name != 'undefined' && myRoutes[r][f].name != '') {
                 if(!isFirstCustomAction){
                     this.msg += ",";
                 }
@@ -79,7 +85,11 @@ dsat.prototype.addToRoutes = function(route){
     route.path = this.root + route.path;
 
     route.name = p;
-
+    var param = null;
+    if(route.name.substr(0,1) == ":"){
+        param = route.name;
+        route.name = "";
+    }
     /*
     if(this.config.hasOwnProperty(p)){
         p = this.config[p];
@@ -89,6 +99,10 @@ dsat.prototype.addToRoutes = function(route){
         this.routes[this.factoryName] = new Array();
     }
     this.routes[this.factoryName].push(route);
+    if(param){
+        this.routes[this.factoryName]['param'] = param;
+        param = null;
+    }
 
 };
 
@@ -104,6 +118,13 @@ dsat.prototype.post = function(path, cb){
     this.addToRoutes(new route(path, "post"));
     this.router.post(path, cb);
 };
+
+dsat.prototype.delete = function(path, cb){
+    console.log("dsat.router delete");
+    this.addToRoutes(new route(path, "delete"));
+    this.router.delete(path, cb);
+};
+
 
 
 module.exports = new dsat("public/api/");

@@ -1,6 +1,6 @@
 
 var dsat = require("./../dsat-router/dsat-router.js");
-
+var mongodb = require("mongodb");
 
 module.exports = function(db) {
     dsat.router = require("express").Router();
@@ -31,6 +31,18 @@ module.exports = function(db) {
     dsat.post("/test2", function (req, res) {
         console.log("api/guest/test2 - post");
         db.collection("guest").save(req.body, function (err, docs) {
+            if (err) console.log(err);
+            console.log(docs);
+            res.json(docs);
+
+        });
+
+    });
+
+    dsat.delete("/:_id", function (req, res) {
+        console.log("api/guest/ - delete");
+        console.log(req.params._id);
+        db.collection("guest").remove({"_id" : new mongodb.ObjectID(req.params._id)}, function (err, docs) {
             if (err) console.log(err);
             console.log(docs);
             res.json(docs);

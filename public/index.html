@@ -19,7 +19,10 @@
         <div>
             <h3>Bookings</h3>
             <ul ng-repeat="booking in bookings">
-                <li>Date: {{booking.date}} - Person : {{booking.person}} - Room: {{booking.room}}</li>
+                <li>
+                    Date: {{booking.date}} - Person : {{booking.person}} - Room: {{booking.room}}
+
+                </li>
             </ul>
             <p>Add Booking</p>
             <p>
@@ -37,8 +40,10 @@
 
         <div>
             <h3>Guests</h3>
-            <ul ng-repeat="guest in guests">
-                <li>{{guest.first_name}} {{guest.last_name}}</li>
+            <ul >
+                <li ng-repeat="guest in guests">{{guest.first_name}} {{guest.last_name}}
+                    <span ng-click="deleteGuest(guest, $index)">Delete</span>
+                </li>
             </ul>
             <form ng-submit="saveGuest()">
                 <label>First Name</label>
@@ -65,17 +70,6 @@
     </div>
 
 </div>
-
-<h1>TODO</h1>
-<ul>
-    <li>Beistrich bei mehreren Methoden einfügen</li>
-    <li>Methoden Namen?</li>
-    <li>modul "verwendung" überdenken (config und root)</li>
-    <li>Config Element</li>
-    <li>Parameter?</li>
-    <li>Optionen (isArray)</li>
-
-</ul>
 
 <script src="bower_components/angularjs/angular.min.js"></script>
 <script src="bower_components/angular-resource/angular-resource.min.js"></script>

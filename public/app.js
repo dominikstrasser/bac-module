@@ -3,6 +3,26 @@ angular.module("testApp", ["mytestModule"])
         $scope.guests = guestProvider.query();
         //guestProvider.test2({"test1" : "TEST1"});
         $scope.rooms = roomProvider.query();
+
+        $scope.saveGuest = function(){
+            guestProvider.save($scope.newGuest,function(docs){
+                console.log("saved");
+                console.log(docs);
+                $scope.guests.push(docs);
+
+          });
+        };
+
+        $scope.deleteGuest = function(guest, id){
+            console.log(id);
+           // guest.$delete(function(docs){
+            guestProvider.remove({"_id" : guest._id},function(docs){
+                console.log("deleted");
+                console.log(docs);
+                $scope.guests.splice(id, 1);
+            });
+        };
+
         /*
         $scope.rooms = room.room();
 
