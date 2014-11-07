@@ -40,27 +40,33 @@ dsat.prototype.writeFile = function(path, msg){
 dsat.prototype.createAngularService = function(cb){
 
     var myRoutes = this.routes;
-
-    this.msg ="angular.module('"+this.moduleName+"', ['ngResource'])\n"
     console.log(myRoutes);
+
+    //1) Write Module Head
+    this.msg ="angular.module('"+this.moduleName+"', ['ngResource'])\n"
+    //2) Write every Main Route as a Factory
     for(r in myRoutes) {
         this.msg += ".factory('"+r+"', function($resource){\n";
-        var isFirstCustomAction = true;
+
         this.msg += "return $resource('"+ myRoutes[r][0].path;
-        //console.log( myRoutes.param)
+        //Add Parameter if needed...
         if(typeof myRoutes[r].param != 'undefined') {
-            console.log("PARAM!");
             this.msg += myRoutes[r].param;
         }
         this.msg += "',{},{\n";
-        for(f  in myRoutes[r]) {
 
+        var isFirstCustomAction = true;
+        for(f  in myRoutes[r]) {
+            if(myRoutes[r].reqUpdate && isFirstCustomAction){
+                this.msg += "update: { method: 'put' } \n"
+                isFirstCustomAction = false;
+            }
             if(typeof myRoutes[r][f].name != 'undefined' && myRoutes[r][f].name != '') {
                 if(!isFirstCustomAction){
                     this.msg += ",";
                 }
                 this.msg += myRoutes[r][f].name + ": {method:'" + myRoutes[r][f].method + "', url:'" + myRoutes[r][f].path + "', isArray:true}\n";
-                isFirstCustomAction = false
+                isFirstCustomAction = false;
             }
         }
         this.msg += "});\n";
@@ -85,24 +91,19 @@ dsat.prototype.addToRoutes = function(route){
     route.path = this.root + route.path;
 
     route.name = p;
-    var param = null;
     if(route.name.substr(0,1) == ":"){
-        param = route.name;
+        this.routes[this.factoryName]['param'] = route.name;
         route.name = "";
     }
-    /*
-    if(this.config.hasOwnProperty(p)){
-        p = this.config[p];
+
+    if(route.name == "" && route.method=="put"){
+        this.routes[this.factoryName]['reqUpdate'] = true;
     }
-    */
+
     if(!(this.factoryName in this.routes)){
         this.routes[this.factoryName] = new Array();
     }
     this.routes[this.factoryName].push(route);
-    if(param){
-        this.routes[this.factoryName]['param'] = param;
-        param = null;
-    }
 
 };
 
@@ -117,6 +118,12 @@ dsat.prototype.post = function(path, cb){
     console.log("dsat.router post");
     this.addToRoutes(new route(path, "post"));
     this.router.post(path, cb);
+};
+
+dsat.prototype.put = function(path, cb){
+    console.log("dsat.router put");
+    this.addToRoutes(new route(path, "put"));
+    this.router.put(path, cb);
 };
 
 dsat.prototype.delete = function(path, cb){

@@ -9,17 +9,22 @@ angular.module("testApp", ["mytestModule"])
                 console.log("saved");
                 console.log(docs);
                 $scope.guests.push(docs);
-
           });
         };
 
         $scope.deleteGuest = function(guest, id){
             console.log(id);
-           // guest.$delete(function(docs){
             guestProvider.remove({"_id" : guest._id},function(docs){
                 console.log("deleted");
                 console.log(docs);
                 $scope.guests.splice(id, 1);
+            });
+        };
+
+        $scope.updateGuest = function(){
+            guestProvider.update({_id :"545d33ce1740089d43d8bc61"}, $scope.newGuest,function(docs){
+                console.log("update");
+
             });
         };
 

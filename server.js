@@ -4,7 +4,7 @@ var bodyParser = require("body-parser");
 var path = require("path");
 var q = require("q");
 var MongoClient = require("mongodb").MongoClient;
-var routes = require("./routes/index.js");
+var publicFiles = require("./routes/index.js");
 
 
 //##### My Requirements #####
@@ -24,14 +24,14 @@ MongoClient.connect('mongodb://localhost:27017/bac-module', function(err, db) {
     app.use("/api/guest", guestAPI);
     app.use("/api/room", roomAPI);
 
-    //Serve public-folder files..
     dsat.createAngularService(function(err){
         if(err) console.log(err);
         console.log("createAngularService ok");
     });
 
+
     app.use(express.static(path.join(__dirname, 'public')));
-    app.use("/", routes);
+    app.use("/", publicFiles);
 
 
     app.listen(3000, function (err) {

@@ -2,7 +2,7 @@
   "name": "bachelorProject",
   "version": "1.0.0",
   "description": "Generates an angularjs service for communicating with the rest server which is based on express. The ngResource is generated depending on the express routes",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
